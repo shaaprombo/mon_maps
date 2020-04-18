@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { LoadingController } from '@ionic/angular';
 
 import {
   GoogleMaps,
@@ -27,10 +30,12 @@ declare var google;
 
 export class HomePage  {
 //objet agence
-agence =
+public agence =
  {
           nom: '',
-          slogan: ''
+          slogan: '',
+          ref:'',
+          photoo:''
 
 };
 
@@ -43,7 +48,8 @@ trajet =
   dte:'',
   prix: '',
   nbre_place:'',
-  adm:''
+  adm:'',
+
 
 };
 //liste de couleur
@@ -55,12 +61,17 @@ j=-1;
 //liste de des objets
 trajets=[];
 users = [];
+agences=[];
+photo='';
 
   email ='';
   method: any;
   meth='password';
   source='';
   dest='';
+  image = '';
+  imagePath: string;
+  upload: any;
   connected_=false;
   add_agence=false;
   add_Trajet=false;
@@ -75,7 +86,12 @@ users = [];
               private navCtrl: NavController,
               public afDB: AngularFireDatabase,
               private route: ActivatedRoute,
-              public afAuth: AngularFireAuth 
+              public afAuth: AngularFireAuth ,
+              private camera: Camera,
+              public loadingController: LoadingController,
+              public alertController: AlertController,
+              public afSG: AngularFireStorage
+              
     ) 
     {
 
@@ -84,18 +100,84 @@ users = [];
     this.createDirectionForm();
     this.getMessages();
     this.getTrajets();
-
-
+    this.getAgences();
+    
+  
 }
 
   ngOnInit() {
   }
+
+  async addPhoto(source: string) {
+    if (source === 'camera') {
+      console.log('camera');
+      const cameraPhoto = await this.openCamera();
+      this.image = 'data:image/jpg;base64,' + cameraPhoto;
+    } else {
+      console.log('library');
+      const libraryImage = await this.openLibrary();
+      this.image = 'data:image/jpg;base64,' + libraryImage;
+    }
+  }
+
+async openLibrary() {
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+  };
+  return await this.camera.getPicture(options);
+}
+
+async openCamera() {
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    sourceType: this.camera.PictureSourceType.CAMERA
+  };
+  return await this.camera.getPicture(options);
+}
+
+async uploadFirebase() {
+	const loading = await this.loadingController.create({
+		duration: 2000
+	});
+  await loading.present();
+  this.imagePath = 'monDossier/' + new Date().getTime() + '.jpg';
+  
+	this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+	this.upload.then(async () => {
+		await loading.onDidDismiss();
+		this.image = '';
+		const alert = await this.alertController.create({
+			header: 'Félicitation',
+			message: 'L\'envoi de la photo dans Firebase est terminé!',
+			buttons: ['OK']
+		});
+		await alert.present();
+	});
+}
+
+
   accepte_Add_Agence(){
     this.add_agence=true;
    
    }
    accepte_trajet(){
     this.add_Trajet=true;
+   
+   }
+   close_reservation(){
+    this.first_stape=true;
+    this.connected_=false;
    
    }
 
@@ -169,15 +251,19 @@ users = [];
   
 }
 
+
 add_Agence() {
   this.afDB.list('Agence/').push({
     nom: this.agence.nom,
     slogan:this.agence.slogan,
-    adm:this.email
+    adm:this.email,
+    ref:this.imagePath 
   });
  // this.valide=false;
   this.agence.nom='';
   this.agence.slogan='';
+  this.agence.photoo='';
+  this.agence.ref='';
   this.add_agence=false;
 }
 
@@ -200,7 +286,53 @@ add_trajets() {
 
 
 }
+/*
+getImagesDatabase() {
+  this.afDB.list('Agence/').snapshotChanges(['child_added']).subscribe(images => {
+    images.forEach(image => {
+      this.getImagesStorage(image);
+    });
+  });
+}
+getImagesStorage(image: any) {
+  const imgRef = image.payload.exportVal().ref;
+  this.afSG.ref(imgRef).getDownloadURL().subscribe(imgUrl => {
+    console.log(imgUrl);
+    this.images.push({
+      name: image.payload.exportVal().name,
+      url: imgUrl
+    });
+  });
+}*/
 
+getAgences() {
+	this.afDB.list('Agence/').snapshotChanges(['child_added'])
+	.subscribe(actions => {
+		this.agences = [];
+		actions.forEach(action => {
+      const imgRef = action.payload.exportVal().ref;
+      this.afSG.ref(imgRef).getDownloadURL().subscribe(imgUrl => {
+        console.log(imgUrl);
+        
+			this.agences.push({
+
+        nom: action.payload.exportVal().nom,
+        slogan:action.payload.exportVal().slogan,
+        adm: action.payload.exportVal().adm,
+        ref:action.payload.exportVal().ref,
+        photoo:imgUrl
+      });
+
+
+        
+				
+			});
+		});
+  });
+
+ 
+  
+}
 
 getTrajets() {
 	this.afDB.list('Trajets/').snapshotChanges(['child_added'])
@@ -214,8 +346,11 @@ getTrajets() {
   dte: action.payload.exportVal().dte,
   prix: action.payload.exportVal().prix,
   nbre_place:action.payload.exportVal().nbre_place,
+  adm:action.payload.exportVal().adm,
   r:this.couleurs[this.i=this.i+1] ,
-   r2:this.couleurs2[this.j=this.j+1] 
+  r2:this.couleurs2[this.j=this.j+1] ,
+  
+
 				
 			});
 		}
@@ -226,6 +361,21 @@ getTrajets() {
   
 }
 
+/*
+public getUser(trajet):any 
+{
+  
+  for (var i = 0; i < this.agences.length; i++)
+   {
+      if (this.agences[i].adm.toLowerCase() === trajet.adm.toLowerCase() ) {
+     
+        return this.agences[i];
+    }
+  }
+  return null;
+}
+
+*/
 affiche_trajet(trajet)
   {
     this.first_stape=false;

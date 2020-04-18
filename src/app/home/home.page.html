@@ -1,18 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title size="large">MooGo</ion-title>
-    <ion-button  (click)="logout()" fill="clear" slot="end">
-      <ion-icon slot="icon-only" color="danger" name="log-out" ></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
 
+
+<ion-header>
+  <ion-item lines="none"  slot="fixed" color="light">
+    <ion-button (click)="presentModal()" fill="clear"  size="large"   id="title"> 
+      <ion-icon ios="ios-contact" md="md-contact" ></ion-icon>MooGo
+    </ion-button>
+   
+    <ion-button  (click)="logout()" fill="clear" slot="end" color="dark">
+      <ion-icon slot="icon-only"  name="log-out" ></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-header>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="accepte_Add_Agence()" size="small"  color="warning">
+    <img src="../../assets/home.png"/>
+  </ion-fab-button>
+
+  <ion-fab-button size="small" color="warning">
+    <img src="../../assets/search (3).png"/>
+  </ion-fab-button>
+  
+  <ion-fab-button (click)="accepte_trajet()" size="small" color="warning" >
+    <img src="../../assets/send (1).png"/>
+  </ion-fab-button>
+  <ion-icon name="bus-sharp"    ></ion-icon>
+</ion-fab> 
 <ion-content>
   <div *ngIf="first_stape">
-            <div *ngIf="!connected_">
+            <div *ngIf="!connected_" >
                             <div *ngIf="method != meth">
                             <div lines="none" *ngFor="let user of users" >
-                              <ion-item lines="none" text-wrap  *ngIf="user.ide == email"   >
+                              <ion-item lines="none" text-wrap  *ngIf="user.ide == email" color="warning"  >
                                       <ion-avatar slot="start">
                                           <img [src]="user.photo"/>
                                       </ion-avatar>
@@ -25,37 +43,27 @@
                               </ion-item>
                           </div>
                           </div>
-                        <div *ngIf="method==meth">
+                        <div *ngIf="method==meth" >
+                          <div *ngFor="let tra of agences">
+                            <div  *ngIf="tra.adm === email">
 
-                          <ion-item lines="none" text-wrap  >
-                                        <ion-avatar slot="start">
-                                            <img src="../../assets/icon/favicon.png"/>
-                                        </ion-avatar>
-                                        <ion-label>
-                                            <p>{{ email }}</p>
-                                            <b>{{ method }}</b>
-                                        </ion-label>
-                                </ion-item>
-                              </div>
-                              <ion-item lines="none" *ngIf="!add_agence && !add_Trajet">
-                                <img src="../../assets/2774475.jpg"/>
-                              </ion-item>
+                                  <ion-item lines="none" text-wrap color="warning" >
+                                                <ion-avatar slot="start">
+                                                  <img [src]="tra.photoo"/>
+                                                </ion-avatar>
+                                                <ion-label>
+                                                    <p>{{ email }}</p>
+                                                    <p>{{ method }}</p>
+                                                </ion-label>
+                                        </ion-item>
+                                      </div>
+                                    </div>
+                                  </div>
+                                     
+                               
 
                 
-                              <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-                                    <ion-fab-button (click)="accepte_Add_Agence()" >
-                                      <img src="../../assets/home.png"/>
-                                    </ion-fab-button>
-                                    <br>
-                                    <ion-fab-button>
-                                      <img src="../../assets/search (3).png"/>
-                                    </ion-fab-button>
-                                    <br>
-                                    <ion-fab-button (click)="accepte_trajet()"  >
-                                      <img src="../../assets/send (1).png"/>
-                                    </ion-fab-button>
-                                    <ion-icon name="bus-sharp"    ></ion-icon>
-                              </ion-fab> 
+                             
 
                               <!--pôur enregistrer un agence po-->
                               <div *ngIf="add_agence">
@@ -73,6 +81,26 @@
                                 <ion-item  lines="none">
                                     <ion-button  (click)="add_Agence()" slot="start">Ok</ion-button>
                                 </ion-item>
+
+                                <ion-button (click)="addPhoto()" color="tertiary" expand="block">
+                                  <ion-icon name="image" slot="start"></ion-icon>
+                                  Ouvrir la bibliothèque
+                                </ion-button>
+                                <div class="flex">
+                                  <div class="img-box">
+                                    <img [src]="image">
+                                  </div>
+                                </div>
+
+                            
+                                <ion-button (click)="addPhoto('camera')" color="secondary" expand="block">
+                                  <ion-icon name="camera" slot="start"></ion-icon>
+                                  Prendre une photo
+                                </ion-button>
+                                <ion-button (click)="uploadFirebase()" color="warning"  expand="block">
+                                  <ion-icon name="cloud-upload" slot="start"></ion-icon>
+                                  Envoyer la photo
+                                </ion-button>
 
 
                             
@@ -117,21 +145,38 @@
                               <!--publication des trajet -->
 
                               <div  >
-                              <ion-card *ngFor="let traj of trajets">
-                                        <p>{{traj.debut}},{{traj.fin}}</p>
-
-                                            <ion-item  text-wrap >
+                              
+                              <ion-item *ngFor="let traj of trajets">
+                                <div *ngFor="let tra of agences">
+                                  <div  *ngIf="traj.adm === tra.adm">
+                                    <ion-item lines="none">
+                                      <ion-button slot="start"  fill="clear"> <h4>{{traj.debut}},{{traj.fin}}</h4></ion-button>
+                                      <ion-button slot="end"  fill="clear"> <h4>{{traj.prix}} </h4><i>frcfa</i>  </ion-button>
+                                    </ion-item>     
+                                            <ion-item  text-wrap lines="nones" >
+                                                   <div id="bordure">
                                                     <ion-avatar slot="start">
-                                                        <img src="../../assets/icon/favicon.png"/>
+                                                      <img [src]="tra.photoo"/>
                                                     </ion-avatar>
+                                                  </div>
                                                   <label text-wrap>
-                                                          <p>{{traj.dte}}</p>
-                                                          <p> {{traj.nbre_place}} Seats | <i> {{traj.prix}}</i> frcfa le trajet</p>
-                                                          <p> avenir voyage </p>                                       
+                                                          <p text-wrap>Date de voyage :{{traj.dte}}
+                                                       | {{traj.nbre_place}}  place
+                                                         {{traj.adm}} </p> 
+                                                          {{tra.nom}}
+                                                                                       
                                                   </label>
-                                          </ion-item>
-                                          <ion-button    color={{traj.r}}  (click)="affiche_trajet(traj)" ><img src="/assets/hand.png"></ion-button>
-                                </ion-card>
+                                                  <ion-button (click)="affiche_trajet(traj)" slot="end" color="warning" size="small">Go -></ion-button>
+                                                </ion-item>
+
+                                              
+                                         
+                                          
+                                   </div>
+                                  </div>
+                                </ion-item>
+                              
+                               
                         </div>
 
 
@@ -152,16 +197,37 @@
    <div *ngIf="!first_stape">
    
                 <div *ngIf="connected_" >
+                  <ion-item>
+                    <ion-label><p>prix du trajet</p><i>{{trajet.prix}} franc cfa</i></ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label><p>places dispo</p><i>{{trajet.nbre_place}}</i></ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label><p>Date et heure</p><i>{{trajet.dte}}</i></ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <i> <ion-label><p>nom de l'agence</p>avenir voyage</ion-label></i>
+                  </ion-item>
                   <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
                               <ion-item>
-                                <ion-label position="floating">Source</ion-label>
-                                <ion-input formControlName="source" value={{trajet.debut}}></ion-input>
+                                <ion-label position="floating"><p>Source</p></ion-label>
+                                <ion-input formControlName="source" value={{trajet.debut}}><i></i></ion-input>
                               </ion-item>
                               <ion-item>
-                                <ion-label position="floating">Destination</ion-label>
-                                <ion-input formControlName="destination" value={{trajet.fin}}></ion-input>
+                                <ion-label position="floating"><p>Destination</p></ion-label>
+                                <ion-input formControlName="destination" value={{trajet.fin}}><i></i></ion-input>
                               </ion-item>
-                              <ion-button expand="full" type="submit" >Get Direction</ion-button>
+                              <ion-item>
+                                    <ion-button expand="full" shape="round" fill="outline" >Procédé au payement</ion-button>
+                              </ion-item>
+                              <ion-item>
+                                    <ion-button expand="full"  (click)="close_reservation()" shape="round"  fill="outline">Annuler la reservation</ion-button>
+                              </ion-item>
+                              <ion-item>
+                                    <ion-button expand="full"  type="submit"  shape="round" fill="outline" >Get Direction</ion-button>
+                              </ion-item>
+                               
                   </form>
             </div>
                  

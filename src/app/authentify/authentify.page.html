@@ -1,6 +1,11 @@
-<ion-content>                     <ion-card>
-                                        <img src="/assets/495078-PHE69C-919.jpg">
-                                        <ion-card *ngIf="!connected">
+<ion-content>                    
+                                           <ion-item lines="none">
+                                             <img src="/assets/495078-PHE69C-919.jpg">
+                                           </ion-item>
+  
+                                   <ion-card>
+                                       
+                                        <div *ngIf="!connected">
                                           <!-- À afficher si l'utilisateur n'est pas connecté -->
                                           <ion-item>
                                                <ion-icon ios="ios-mail" md="md-mail" slot="start"></ion-icon>
@@ -12,16 +17,16 @@
                                                 <ion-label><b>Mot de passe:</b></ion-label>
                                                 <ion-input type="password" [(ngModel)]="dataUser.password"></ion-input>
                                           </ion-item>
-                                  </ion-card>
+                                        </div>
                                   </ion-card>
                                  
                                   
-                                  <ion-card>
-                                    <ion-card>
-                                                <ion-button expand="block" color="primary" (click)="login()">Connexion</ion-button>
-                                                <ion-button expand="block" color="tertiary" (click)="signUp()">Inscription</ion-button>
-                                  </ion-card>
-                                  </ion-card>
+                                
+                                    <ion-item lines="none">
+                                                <ion-button expand="block" color="primary" (click)="login()" slot="start"  shape="round">Connexion</ion-button>
+                                                <ion-button expand="block" color="tertiary" (click)="signUp()" slot="end" shape="round">Inscription</ion-button>
+                                    </ion-item>
+                                 
                                     
                                   
                                   
@@ -32,7 +37,7 @@
                                     
                                   </ion-card>
                                   <ion-card>
-                                    <ion-button shape="round" expand="block" (click)="facebookLogin()">
+                                    <ion-button  expand="block" (click)="facebookLogin()">
                                       <ion-icon slot="start" name="logo-facebook"></ion-icon>
                                       Connexion avec Facebook
                                     </ion-button>

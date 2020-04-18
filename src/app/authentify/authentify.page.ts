@@ -91,22 +91,16 @@ facebookLogin() {
   }
 }
 facebookCordova() {
-  this.afAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-    .then((success) => {
-      console.log('Info Facebook: ' + JSON.stringify(success));
-      console.log('Firebase success: ' + JSON.stringify(success));
-    	console.log('uid: ' + success.user.uid);
-    	console.log('displayName: ' + success.user.displayName);
-      console.log('photoURL: ' + success.user.photoURL);
-      this.afDB.object('Users/' + success.user.uid).set({
-        displayName: success.user.displayName,
-        photoURL: success.user.photoURL,
-        ide:success.user.email
+  this.fb.login(['email']).then( (response) => {
+      const facebookCredential = firebase.auth.FacebookAuthProvider
+          .credential(response.authResponse.accessToken);
+      firebase.auth().signInWithCredential(facebookCredential)
+      .then((success) => {
+          console.log('Info Facebook: ' + JSON.stringify(success));
+      }).catch((error) => {
+          console.log('Erreur: ' + JSON.stringify(error));
       });
-    }).catch((error) => {
-      console.log('Erreur: ' + JSON.stringify(error));
-    });
-  
+  }).catch((error) => { console.log(error); });
 }
 
 facebookWeb() {

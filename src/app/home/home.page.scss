@@ -54,26 +54,47 @@
     --Lexend: 'Lexend', cursive;
     --Livvic : 'Livvic', cursive;
   }
+  #io{
+    background: #d7d8da82;
+  }
   
   p,ion-label{
     font-family: Lexend,cursive;
-    color:  #ca1e1eda;
+    color:  black;
     font-size: 1rem;
     font-family: Livvic;
+  }
+ 
+  
+  i{
+    font-family: Lexend,cursive;
+    color:  #104f55;
+    font-size: 1rem;
+    font-family: Josefin;
   }
   #agence
   {
     height: 50%;
   }
+  h4{
+    color: #464242;
+    font-size: 1.3em;
+    font-family: Lexend,unset;
+    font-family: monospace;
+  }
   
-  ion-title{
+  #title{
     font-size: 1.6rem;
-    padding: 0rem 0;
-    display: block;
-    font-family:Lexend;
-    font-size: 1.6rem;
+    //padding: 0rem 0;
+   // display: block;
+    font-family:Josefin;
+    //font-size: 1.6rem;
     color:  #3f4954;
-    margin-top: 3%;
+    font-family: Lexend,unset;
+    //font-size:1.8rem;
+    color: black;
+   // margin-top: 3%;
+   //background: #d7d8da82;
    // margin-left: 15%;
   }
   
@@ -101,6 +122,7 @@
     display: list-item;
       color: black;
   }
+  
   
  
   .input-element{
