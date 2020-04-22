@@ -150,7 +150,7 @@
                                 <div *ngFor="let tra of agences">
                                   <div  *ngIf="traj.adm === tra.adm">
                                     <ion-item lines="none">
-                                      <ion-button slot="start"  fill="clear"> <h4>{{traj.debut}},{{traj.fin}}</h4></ion-button>
+                                      <ion-button slot="start"  fill="clear"> <h4>{{traj.debut}}-{{traj.fin}}</h4></ion-button>
                                       <ion-button slot="end"  fill="clear"> <h4>{{traj.prix}} </h4><i>frcfa</i>  </ion-button>
                                     </ion-item>     
                                             <ion-item  text-wrap lines="nones" >
@@ -168,15 +168,11 @@
                                                   </label>
                                                   <ion-button (click)="affiche_trajet(traj)" slot="end" color="warning" size="small">Go -></ion-button>
                                                 </ion-item>
-
-                                              
-                                         
-                                          
-                                   </div>
+    
+                                    </div>
                                   </div>
                                 </ion-item>
-                              
-                               
+                                   
                         </div>
 
 
