@@ -49,6 +49,7 @@ trajet =
   prix: '',
   nbre_place:'',
   adm:'',
+  key:''
 
 
 };
@@ -63,6 +64,7 @@ trajets=[];
 users = [];
 agences=[];
 photo='';
+//aagence:agence;
 
   email ='';
   method: any;
@@ -76,6 +78,7 @@ photo='';
   add_agence=false;
   add_Trajet=false;
   first_stape=true;
+  personne=false;
 
  @ViewChild('mapElement', { static: false }) mapNativeElement: ElementRef;
   directionsService = new google.maps.DirectionsService;
@@ -101,12 +104,36 @@ photo='';
     this.getMessages();
     this.getTrajets();
     this.getAgences();
+    this.getMessages_F() ;
+   
     
   
 }
 
   ngOnInit() {
   }
+  page_menu() {
+    for (var i = 0; i < this.agences.length; i++)
+   {
+      if (this.agences[i].adm.toLowerCase() === this.email ) {
+     
+        this.agence.nom=this.agences[i].nom;
+        this.personne=true;
+        this.agence.photoo=this.agences[i].photoo;
+        this.agence.ref=this.agences[i].adm;
+        this.agence.slogan=this.agences[i].slogan;
+        this.navCtrl.navigateForward(['/menu', {item:this.email,
+          agencess:this.agences[i].photoo,
+          item2:this.agences[i].nom,
+          item3:this.agences[i].slogan,
+          item1:this.agences[i].adm,
+          item4:this.personne}]);
+    }
+  }
+    
+    
+  }
+
 
   async addPhoto(source: string) {
     if (source === 'camera') {
@@ -156,7 +183,7 @@ async uploadFirebase() {
 	this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
 	this.upload.then(async () => {
 		await loading.onDidDismiss();
-		this.image = '';
+		this.image = 'https://www.kasterencultuur.nl/editor/placeholder.jpg';
 		const alert = await this.alertController.create({
 			header: 'Félicitation',
 			message: 'L\'envoi de la photo dans Firebase est terminé!',
@@ -178,6 +205,19 @@ async uploadFirebase() {
    close_reservation(){
     this.first_stape=true;
     this.connected_=false;
+    this.trajet.debut='';
+    this.trajet.fin='';
+    this.trajet.dte='';
+    this.trajet.prix='';
+    this.trajet.nbre_place='';
+    this.trajet.adm='';
+    this.source='';
+    this.dest='';
+    this.agence.nom='';
+    this.agence.photoo='';
+    this.agence.ref='';
+    this.agence.slogan='';
+
    
    }
 
@@ -234,8 +274,8 @@ async uploadFirebase() {
   
   }
   
- getMessages() {
-	this.afDB.list('Users/').snapshotChanges(['child_added'])
+ getMessages_F() {
+	this.afDB.list('UsersF/').snapshotChanges(['child_added'])
 	.subscribe(actions => {
 		this.users = [];
 		actions.forEach(action => {
@@ -251,6 +291,26 @@ async uploadFirebase() {
   
 }
 
+getMessages() {
+	this.afDB.list('Users/').snapshotChanges(['child_added'])
+	.subscribe(actions => {
+		this.users = [];
+		actions.forEach(action => {
+       const imgRef = action.payload.exportVal().ref;
+       this.afSG.ref(imgRef).getDownloadURL().subscribe(imgUrl => {
+        console.log(imgUrl);
+			this.users.push({
+        adm:action.payload.exportVal().adm,
+        nom:action.payload.exportVal().nom,
+        ref:action.payload.exportVal().ref,
+        photo2:imgUrl,
+        
+      });	
+			});
+		});
+  });
+  
+}
 
 add_Agence() {
   this.afDB.list('Agence/').push({
@@ -265,6 +325,11 @@ add_Agence() {
   this.agence.photoo='';
   this.agence.ref='';
   this.add_agence=false;
+}
+
+deleteReserve(trajet){
+  this.afDB.list('/Trajets').remove(trajet.key);
+  this.getTrajets();
 }
 
 add_trajets() {
@@ -347,6 +412,7 @@ getTrajets() {
   prix: action.payload.exportVal().prix,
   nbre_place:action.payload.exportVal().nbre_place,
   adm:action.payload.exportVal().adm,
+  key:action.payload.key,
   r:this.couleurs[this.i=this.i+1] ,
   r2:this.couleurs2[this.j=this.j+1] ,
   
@@ -376,7 +442,7 @@ public getUser(trajet):any
 }
 
 */
-affiche_trajet(trajet)
+affiche_trajet(trajet,agence)
   {
     this.first_stape=false;
     this.connected_=true;
@@ -388,6 +454,11 @@ affiche_trajet(trajet)
     this.trajet.adm=this.email;
     this.source=trajet.debut;
     this.dest=trajet.fin;
+    this.agence.nom=agence.nom;
+    this.agence.photoo=agence.photoo;
+    this.agence.ref=agence.ref;
+    this.agence.slogan=agence.slogan;
+
     
 
 }

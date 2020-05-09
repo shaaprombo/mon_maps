@@ -2,6 +2,39 @@
     width: 100%;
     height: 50%;
 }
+ion-avatar {
+  height: 45px;
+  width: 45px;
+}
+h3 {
+ font-weight: 500;
+ font-family: 'Times New Roman', Times, serif;
+ font-size: 1.3em;
+ color: black;
+ //color: blue($color: #000000);
+}
+.flex_box {
+  display: flex;
+  justify-content: space-between;
+}
+ion-note {
+  font-size: 13px;
+}
+.text-icon {
+  font-size: 22px;
+  margin-bottom: -6px;
+}
+p {
+  color: grey;
+}
+.status {
+    color: grey;
+    font-weight: 400;
+    font-size: 13px;
+}
+ion-toolbar ion-avatar {
+    padding: 3px;
+}
 
 
 /*  font-family: Abel  */
@@ -28,7 +61,12 @@
     font-family: Lexend;
     src: url('../fonts/Lexend_Deca/LexendDeca-Regular.ttf');
   }
-  
+.form
+{
+  //border-radius: 0em 0em 3em 3em;
+  background-color:var(--ion-color-warning);
+  height: 5em;
+}  
   /*  font-family: Livvic  */
   @font-face {
     font-family: Livvic;
@@ -43,6 +81,13 @@
     --bg-color: #0f0f0f;
     --white: #ffffff;
     --midnight: #104f55;
+    --Sniglet-font: "Sniglet", cursive;
+  --Rubik: "Rubik", cursive;
+  --Patua: "Patua One", cursive;
+  --Lobster: "lobster", cursive;
+  --light-black: #2e2c2caf;
+  --bggradient: linear-gradient(to bottom, #dd2476, #ff512f);
+  --light-gray: rgba(255, 255, 255, 0.877);
   
     /* gradient color   */
     --sky: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
@@ -87,10 +132,10 @@
     font-size: 1.6rem;
     //padding: 0rem 0;
    // display: block;
-    font-family:Josefin;
+   // font-family:Josefin;
     //font-size: 1.6rem;
     color:  #3f4954;
-    font-family: Lexend,unset;
+    //font-family: Lexend,unset;
     //font-size:1.8rem;
     color: black;
    // margin-top: 3%;
@@ -134,3 +179,8 @@
     display: list-item;
     margin-left: 16%;
   }
+  
+.img {
+   // background: url("../../assets/2774475.jpg");
+  
+}

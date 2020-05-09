@@ -1,46 +1,78 @@
-<ion-content>                    
-                                           <ion-item lines="none">
-                                             <img src="/assets/495078-PHE69C-919.jpg">
-                                           </ion-item>
-  
-                                   <ion-card>
-                                       
-                                        <div *ngIf="!connected">
-                                          <!-- À afficher si l'utilisateur n'est pas connecté -->
-                                          <ion-item>
-                                               <ion-icon ios="ios-mail" md="md-mail" slot="start"></ion-icon>
-                                                <ion-label><b>Email:</b></ion-label>
-                                                <ion-input type="email" [(ngModel)]="dataUser.email"></ion-input>
-                                          </ion-item>
-                                          <ion-item>
-                                                <ion-icon ios="ios-unlock" md="md-unlock" slot="start"></ion-icon>
-                                                <ion-label><b>Mot de passe:</b></ion-label>
-                                                <ion-input type="password" [(ngModel)]="dataUser.password"></ion-input>
-                                          </ion-item>
-                                        </div>
-                                  </ion-card>
-                                 
+<ion-content>  
+  <div *ngIf="!inscrit">                
+    <div class="logo">
+      <ion-icon color="light" name="contact" color="warning"></ion-icon>
+    </div>
                                   
-                                
-                                    <ion-item lines="none">
-                                                <ion-button expand="block" color="primary" (click)="login()" slot="start"  shape="round">Connexion</ion-button>
-                                                <ion-button expand="block" color="tertiary" (click)="signUp()" slot="end" shape="round">Inscription</ion-button>
-                                    </ion-item>
-                                 
-                                    
-                                  
-                                  
-                                  
-                                  <ion-card *ngIf="connected">
-                                    <!-- Si l'utilisateur est connecté -->
-                                    <ion-button expand="block" color="danger" (click)="logout()">Déconnexion</ion-button>
-                                    
-                                  </ion-card>
-                                  <ion-card>
-                                    <ion-button  expand="block" (click)="facebookLogin()">
-                                      <ion-icon slot="start" name="logo-facebook"></ion-icon>
-                                      Connexion avec Facebook
-                                    </ion-button>
-                                  </ion-card>
+    <ion-card>
+                                        
+      <div *ngIf="!connected">
+        <!-- À afficher si l'utilisateur n'est pas connecté -->
+        <ion-item>
+            <ion-icon ios="ios-mail" md="md-mail" slot="start"></ion-icon>
+              <ion-label><b>Email:</b></ion-label>
+              <ion-input type="email" [(ngModel)]="dataUser.email" placeholder="Email"></ion-input>
+        </ion-item>
+        <ion-item>
+              <ion-icon ios="ios-unlock" md="md-unlock" slot="start"></ion-icon>
+              <ion-label><b>Mot de passe:</b></ion-label>
+              <ion-input type="password" [(ngModel)]="dataUser.password" placeholder="Mot de passe"></ion-input>
+        </ion-item>
+      </div>
+  </ion-card>                                   
+  <ion-button color="warning" expand="block" shape="round" fill="outline" (click)="login()">Connexion</ion-button>
+  <ion-item lines="none">
+    <ion-label color="primary" text-center>Ou connectez-vous avec</ion-label>
+  </ion-item>
 
+  <div class="flex">
+    <ion-button fill="outline" shape="round"(click)="facebookLogin()">
+      <ion-icon slot="start" name="logo-facebook"></ion-icon>
+      Facebook
+    </ion-button>
+    <ion-button fill="outline" shape="round" (click)="doInscroption()">
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Inscription
+    </ion-button>
+  </div>  
+</div> 
+
+<div *ngIf="inscrit">
+  <ion-item>
+    <ion-icon ios="ios-mail" md="md-mail" slot="start"></ion-icon>
+      <ion-label><b>Email:</b></ion-label>
+      <ion-input type="email" [(ngModel)]="dataUser_info.email" placeholder="Email"></ion-input>
+</ion-item>
+<ion-item>
+      <ion-icon ios="ios-unlock" md="md-unlock" slot="start"></ion-icon>
+      <ion-label><b>Mot de passe:</b></ion-label>
+      <ion-input type="password" [(ngModel)]="dataUser_info.password" placeholder="Mot de passe"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-icon name="man" slot="start"></ion-icon>
+  <ion-label><b>Votre nom:</b></ion-label>
+  <ion-input type="password" [(ngModel)]="dataUser_info.nom" placeholder="votre nom"></ion-input>
+</ion-item>
+
+<ion-button (click)="addPhoto()" color="tertiary" expand="block">
+    <ion-icon name="image" slot="start"></ion-icon>
+    Ouvrir la bibliothèque
+</ion-button>
+  <div class="flex">
+    <div class="img-box">
+      <img [src]="image">
+    </div>
+  </div>
+  <ion-button (click)="addPhoto('camera')" color="secondary" expand="block">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    Prendre une photo
+  </ion-button>
+  <ion-button (click)="uploadFirebase()" color="warning"  expand="block">
+    <ion-icon name="cloud-upload" slot="start"></ion-icon>
+    Envoyer la photo
+  </ion-button>
+</div>
+
+
+    
 </ion-content>

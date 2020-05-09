@@ -1,9 +1,51 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>menu</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Accueil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mon Menu</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
+  <div *ngIf="personne">
+      <ion-chip >
+        <ion-avatar>
+          <img [src]="agences_photo"/>
+          </ion-avatar>
+          <ion-label>{{ agence_nom}} </ion-label>
+      </ion-chip>
+      <ion-fab-button (click)="page_trjet()"  size="small"  color="warning" horizontal="end" slot="fixed">
+        <ion-icon name="megaphone"></ion-icon>
+      </ion-fab-button>
+                                   
+  <div *ngFor="let traj of trajets">
+   
+    <div  *ngIf="traj.adm === email">
+          <ion-item>
+                <p text-wrap>
+                  {{traj.debut}},{{traj.fin}} {{traj.prix}} <i>frcfa</i>{{traj.dte}}
+                </p>
+            </ion-item>
+            <ion-item>
+              <ion-fab-button (click)="deleteReserve(traj)"  size="small"  color="warning" >
+                <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+              </ion-fab-button>
+            </ion-item>
+             
+      </div>
+
+            
+    </div>
+</div>
+<div *ngIf="!personne">
+
+</div>
+
+
+
+
+
 
 </ion-content>
