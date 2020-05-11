@@ -1,15 +1,16 @@
  
 
-<ion-header class="header">
-  <ion-item   slot="fixed" class="header" lines="none" >
-      <ion-icon size="large" name="menu" color="warning" routerLink="/menu" (click)="page_menu()" slot="start"></ion-icon>
-      <h2> MooGo</h2>
-    <ion-chip (click)="logout()" slot="end">
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+       <ion-icon size="large" name="menu" color="warning" routerLink="/menu" (click)="page_menu()" slot="start"></ion-icon>
+
+      </ion-buttons>
+    <ion-title ><h1> <strong> Moogo</strong></h1></ion-title>
+    <ion-button (click)="logout()" slot="end" fill="clear">
       <ion-icon name="power" color="warning"></ion-icon>
-    </ion-chip>
-
-  </ion-item>
-
+    </ion-button>
+  </ion-toolbar>
 </ion-header>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button (click)="accepte_Add_Agence()" size="small"  color="warning">
@@ -29,25 +30,38 @@
                             <div *ngIf="method != meth">
                             <div lines="none" *ngFor="let user of users" >
                               <ion-item lines="none" text-wrap  *ngIf="user.ide == email" color="warning" class="form"  >
-                                      <ion-avatar slot="start">
-                                          <img [src]="user.photo"/>
-                                      </ion-avatar>
+                                <div class="flex">
+                                  <div class="box-border">
+                                    <div class="border-white">
+                                      <div class="img-box">
+                                        <img [src]="user.photo"/>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
                                       <ion-label text-wrap>
                                              <p> <b> {{ email }}</b></p>
                                                <p> <b>{{  user.name }}</b></p>
                                                 <p>{{ method }}</p>
                                                 
                                       </ion-label>
-                              </ion-item>
+                                    </ion-item>
                           </div>
                           </div>
                         <div *ngIf="method==meth"  >
                           
                             <div lines="none" *ngFor="let user of users" >
                               <ion-item lines="none" text-wrap  *ngIf="user.adm == email" color="warning" class="form" >
-                                      <ion-avatar slot="start">
-                                          <img [src]="user.photo2"/>
-                                      </ion-avatar>
+                                     <div class="flex">
+                                  <div class="box-border">
+                                    <div class="border-white">
+                                      <div class="img-box">
+                                        <img [src]="user.photo2"/>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                                       <ion-label text-wrap>
                                              
                                                
@@ -60,18 +74,20 @@
                           </div>
                          </div>
                                      
-                               
+                               <ion-item><strong>vous avesz publier les trajets</strong></ion-item>
 
                                   <div *ngFor="let traj of trajets">
                                     <div  *ngIf="traj.adm === email">
-                                            <ion-item color="light" >
+                                            <ion-item color="dark" >
                                               
                                               <ion-label>
-                                                <div class="flex_box">
+                                                <ion-item >
                                                   20/02/20 18h00
-                                                  <ion-note slot="end"><b>{{traj.prix}}</b>fcfa</ion-note>
-                                                </div>
-                                                <p><ion-icon color="danger" slot="start" ios="ios-trash" md="md-trash" (click)="deleteReserve(traj)"></ion-icon> {{traj.debut}},{{traj.fin}} ...</p>
+                                                  <ion-button slot="end" fill="clear" color="dark"><strong>{{traj.prix}}</strong>fcfa</ion-button>
+                                                </ion-item>
+                                                <p><ion-icon color="warning" size="large" slot="start" ios="ios-trash" md="md-trash" (click)="deleteReserve(traj)"></ion-icon> 
+                                                  <b size="large">{{traj.debut}}</b><ion-icon size="large"color="warning" name="arrow-round-forward"></ion-icon>
+                                                  <b size="large">{{traj.fin}}</b> </p>
                                               </ion-label>
                                           
                                             </ion-item>
@@ -143,15 +159,20 @@
                                                   
                                               
                                                 <ion-item   (click)="affiche_trajet(traj,tra)" >
+                                                  
                                                   <ion-avatar slot="start" >
                                                     <img [src]="tra.photoo"/>
                                                   </ion-avatar>
                                                   <ion-label text-wrap>
-                                                    <div class="flex_box">
-                                                      <h3>{{tra.nom}}</h3>
-                                                      <ion-note slot="end"><b>{{traj.prix}}</b>fcfa</ion-note>
+                                                    <div class="flex_box" >
+                                                      <p><strong>{{traj.debut}}</strong> <ion-icon name="arrow-round-down" size="large"></ion-icon>
+                                                        <strong>{{traj.fin}}</strong></p>
+                                                      <ion-button slot="end" fill="clear" color="dark"><strong><h2>{{traj.prix}}</h2></strong>fcfa</ion-button>
+                                                      <h3 text-wrap>{{tra.nom}}</h3>
+                                                  
+                                                    
                                                     </div>
-                                                    <p><ion-icon class="text-icon" color="primary" name="done-all"></ion-icon> {{traj.debut}},{{traj.fin}} ...</p>
+                                                    <ion-note slot="end"><b>{{traj.nbre_place}}</b>places</ion-note>
                                                   </ion-label>
                                                 </ion-item>
 
@@ -185,7 +206,7 @@
                 <div *ngIf="connected_" >
                   
                     <ion-toolbar>
-                      <ion-fab-button size="small" color="warning" slot="start"  (click)="close_reservation()">
+                      <ion-fab-button size="small" color="warning" slot="start"  (click)="incription(agence,trajet)">
                         <ion-icon name="arrow-back"></ion-icon>
                      </ion-fab-button>
                       <ion-title>{{agence.nom}}<br><div class="status">{{agence.slogan}}</div></ion-title>

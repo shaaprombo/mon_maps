@@ -31,6 +31,7 @@ agence_slogan='';
 agence_nom='';
 trajets=[];
 personne='';
+reservations=[];
 modify=false;
 
   constructor( 
@@ -58,6 +59,22 @@ modify=false;
  
   }
 
+  getReservation()
+  {
+    this.afDB.list('Reservation/').snapshotChanges(['child_added'])
+    .subscribe(actions =>{
+      this.reservations=[];
+      actions.forEach(action =>{
+        this.reservations.push({
+          agence:action.payload.exportVal().agence,
+          trajet:action.payload.exportVal().Trajet,
+          passage:action.payload.exportVal().passage
+        });
+      });
+    });
+
+  }
+
   
 getTrajets() {
 	this.afDB.list('Trajets/').snapshotChanges(['child_added'])
@@ -77,8 +94,7 @@ getTrajets() {
 
 				
 			});
-		}
-);
+		});
 	});
 }
 

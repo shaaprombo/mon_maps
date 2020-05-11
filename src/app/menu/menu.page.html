@@ -40,6 +40,26 @@
     </div>
 </div>
 <div *ngIf="!personne">
+  <div *ngFor="let reservation of reservations">
+    <div *ngFor="let traj of trajets">
+      <div  *ngIf="traj.key === reservation.trajet">
+        <ion-item>
+              <p text-wrap>
+                {{traj.debut}},{{traj.fin}} {{traj.prix}} <i>frcfa</i>{{traj.dte}}
+              </p>
+          </ion-item>
+          <ion-item>
+            <ion-fab-button (click)="deleteReserve(traj)"  size="small"  color="warning" >
+              <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+            </ion-fab-button>
+          </ion-item>
+           
+    </div>
+
+
+    </div>
+
+  </div>
 
 </div>
 

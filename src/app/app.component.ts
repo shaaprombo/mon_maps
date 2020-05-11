@@ -22,10 +22,11 @@ rootPage:string='HomePage';
   }
 
   initializeApp() {
+    this.login();
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.login();
+     
     });
   }
   login()

@@ -35,8 +35,15 @@ public agence =
           nom: '',
           slogan: '',
           ref:'',
-          photoo:''
+          photoo:'',
+          key:''
 
+};
+public reservation=
+{
+  id_trajej:'',
+  id_passager:'',
+  id_agence:''
 };
 
 //objet trajet
@@ -251,6 +258,8 @@ async uploadFirebase() {
         window.alert('Directions request failed due to ' + status);
       }
     });
+    this.source='';
+    this.dest='';
   }
 
   add() {
@@ -326,6 +335,16 @@ add_Agence() {
   this.agence.ref='';
   this.add_agence=false;
 }
+incription(trajet,agence)
+{
+this.afDB.list('Reservation/').push({
+agence:agence.key,
+trajet:trajet.key,
+passager:this.email
+
+});
+this.close_reservation();
+}
 
 deleteReserve(trajet){
   this.afDB.list('/Trajets').remove(trajet.key);
@@ -385,7 +404,8 @@ getAgences() {
         slogan:action.payload.exportVal().slogan,
         adm: action.payload.exportVal().adm,
         ref:action.payload.exportVal().ref,
-        photoo:imgUrl
+        photoo:imgUrl,
+        key:action.payload.key
       });
 
 
