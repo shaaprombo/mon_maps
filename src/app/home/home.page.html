@@ -156,7 +156,6 @@
                               <div *ngFor="let traj of trajets">
                                 <div *ngFor="let tra of agences">
                                   <div  *ngIf="traj.adm === tra.adm">
-<<<<<<< HEAD
                                                   
                                               
                                                 <ion-item   (click)="affiche_trajet(traj,tra)" >
@@ -185,32 +184,6 @@
                                 </div>
                               
                                
-=======
-                                    <ion-item lines="none">
-                                      <ion-button slot="start"  fill="clear"> <h4>{{traj.debut}}-{{traj.fin}}</h4></ion-button>
-                                      <ion-button slot="end"  fill="clear"> <h4>{{traj.prix}} </h4><i>frcfa</i>  </ion-button>
-                                    </ion-item>     
-                                            <ion-item  text-wrap lines="nones" >
-                                                   <div id="bordure">
-                                                    <ion-avatar slot="start">
-                                                      <img [src]="tra.photoo"/>
-                                                    </ion-avatar>
-                                                  </div>
-                                                  <label text-wrap>
-                                                          <p text-wrap>Date de voyage :{{traj.dte}}
-                                                       | {{traj.nbre_place}}  place
-                                                         {{traj.adm}} </p> 
-                                                          {{tra.nom}}
-                                                                                       
-                                                  </label>
-                                                  <ion-button (click)="affiche_trajet(traj)" slot="end" color="warning" size="small">Go -></ion-button>
-                                                </ion-item>
-    
-                                    </div>
-                                  </div>
-                                </ion-item>
-                                   
->>>>>>> 8c01fce01fdde7e58b25f32ce4ff973fb169d7a0
                         </div>
 
 
