@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-content>  
   <div *ngIf="!inscrit">                
   
@@ -73,4 +74,58 @@
 
 
     
+=======
+<ion-content>                    
+   
+  <div class="padding">
+                                    <div class="logo">
+                                      <ion-img src="..\assets\icon\moogologo.PNG"></ion-img>
+                                    </div>
+                                  
+                                    
+                                         <div *ngIf="!connected">
+                                          <!-- À afficher si l'utilisateur n'est pas connecté -->
+                                          <ion-item>
+                                               <ion-icon ios="ios-mail" md="md-mail" slot="start"></ion-icon>
+                                                <ion-label  color="light">Email</ion-label>
+                                                <ion-input  placeholder="Entrez votre addresse mail" color="light" type="email" [(ngModel)]="dataUser.email"></ion-input>
+                                          </ion-item>
+                          
+                                          <ion-item>
+                                                <ion-icon ios="ios-unlock" md="md-unlock" slot="start"></ion-icon>
+                                                <ion-label  color="light">Mot de passe:</ion-label>
+                                                <ion-input placeholder="Entrez le mot de passe" color="light" type="password" [(ngModel)]="dataUser.password"></ion-input>
+                                          </ion-item>
+
+                                          <ion-item lines="none">
+                                            <ion-button color="light" fill="clear" slot="end">Mot de passe oublié?</ion-button>
+                                          </ion-item>
+                                        </div>
+                                 
+                                 
+                      
+                                        <ion-button expand="block" fill="outline" color="primary" (click)="login()" slot="start"  shape="round">Connexion</ion-button>
+                                        <span>                                                          </span>
+                                        <ion-button expand="block" fill="outline" color="tertiary" (click)="signUp()" slot="end" shape="round">Inscription</ion-button>
+                 
+                                 
+  </div>
+                                                                  
+  <div class="flex">                              
+                                  
+                                  
+                                  <ion-card *ngIf="connected">
+                                    <!-- Si l'utilisateur est connecté -->
+                                    <ion-button expand="block" color="danger" (click)="logout()">Déconnexion</ion-button>
+                                    
+                                  </ion-card>
+                                  <ion-card>
+                                    <ion-button  expand="block" (click)="facebookLogin()">
+                                      <ion-icon slot="start" name="logo-facebook"></ion-icon>
+                                      Connexion avec Facebook
+                                    </ion-button>
+                                  </ion-card>
+  </div>
+  
+>>>>>>> 8c01fce01fdde7e58b25f32ce4ff973fb169d7a0
 </ion-content>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .img{
     border-radius: 50%;
 }
@@ -19,3 +20,34 @@
 ion-content {
     //--ion-background-color: linear-gradient(white, #9c8886);
 }
+=======
+
+  ion-content{
+    --ion-background-color: linear-gradient(rgb(158, 190, 158),rgb(26, 105, 26),rgb(34, 13, 13));
+  }
+  ion-item{
+    --ion-background-color:transparent!important;
+  }
+  ion-button{
+      margin-bottom:12px;
+  }
+  .padding{
+    padding: 5%;
+  }
+ 
+  .logo{
+    height: 160px;
+    position: relative
+  
+  }
+  .logo ion-img{
+    position: relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+  }
+
+  ion-input:focus{
+      --ion-background-color:linear-gradient(rgb(158, 190, 158),rgb(26, 105, 26),rgb(34, 13, 13));
+  }
+>>>>>>> 8c01fce01fdde7e58b25f32ce4ff973fb169d7a0
